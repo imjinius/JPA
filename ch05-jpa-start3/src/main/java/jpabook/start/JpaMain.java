@@ -20,10 +20,10 @@ public class JpaMain {
 
 
             tx.begin(); //트랜잭션 시작
-            //testSave(em);  //비즈니스 로직
+            testSave(em);  //비즈니스 로직
             //queryLogicJoin(em);  //비즈니스 로직
             //updateRelation(em);  //비즈니스 로직
-            deleteRelation(em);  //비즈니스 로직
+//            deleteRelation(em);  //비즈니스 로직
             tx.commit();//트랜잭션 커밋
 
         } catch (Exception e) {
