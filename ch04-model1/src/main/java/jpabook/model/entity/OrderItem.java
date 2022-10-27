@@ -22,6 +22,14 @@ public class OrderItem {
     private int orderPrice; //주문 가격
     private int count;      //주문 수량
 
+    @ManyToOne
+    @JoinColumn(name = "ORDER_ID")
+    private Order order; // 주문
+    
+    @ManyToOne
+    @JoinColumn(name = "ITEM_ID")
+    private Item item; // 주문 상품
+    
     //Getter, Setter
     public Long getId() {
         return id;
@@ -62,8 +70,28 @@ public class OrderItem {
     public void setCount(int count) {
         this.count = count;
     }
+    
+    public Order getOrder() {
+		return order;
+	}
 
-    @Override
+	public void setOrder(Order order) {
+		if(this.order != null)
+			this.order.getOrderItems().remove(this);
+		
+		this.order = order;
+		order.getOrderItems().add(this);
+	}
+
+	public Item getItem() {
+		return item;
+	}
+
+	public void setItem(Item item) {
+		this.item = item;
+	}
+
+	@Override
     public String toString() {
         return "OrderItem{" +
                 "id=" + id +
