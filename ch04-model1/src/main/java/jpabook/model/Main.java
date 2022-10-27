@@ -1,9 +1,9 @@
 package jpabook.model;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.*;
+
+import jpa.premium.Parent;
+import jpa.premium.ParentId;
 
 /**
  * Created by 1001218 on 15. 4. 5..
@@ -32,6 +32,19 @@ public class Main {
         }
 
         emf.close(); //엔티티 매니저 팩토리 종료
+    }
+    
+    public void save(EntityManager em) {
+    	Parent parent = new Parent();
+    	parent.setId1("myId1");
+    	parent.setId2("myId2");
+    	em.persist(parent);
+    }
+    
+    public void find(EntityManager em) {
+    	ParentId parentId = new ParentId("myId1","myId2");
+    	Parent parent = em.find(Parent.class, parentId);
+    	
     }
 
 }
