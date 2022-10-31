@@ -36,8 +36,10 @@ public class Main {
     
     public void save(EntityManager em) {
     	Parent parent = new Parent();
-    	parent.setId1("myId1");
-    	parent.setId2("myId2");
+    	ParentId parentId = new ParentId("myId1","myId2");
+    	parent.setId(parentId);
+    	parent.setName("parentName");
+    	
     	em.persist(parent);
     }
     
