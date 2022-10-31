@@ -21,7 +21,11 @@ public class Member {
     private String street;
     private String zipcode;
     
-    @OneToMany(mappedBy = "member")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Team team;
+    
+    
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<Order> orders = new ArrayList<Order>();
     
 
