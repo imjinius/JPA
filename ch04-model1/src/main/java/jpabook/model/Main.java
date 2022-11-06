@@ -4,6 +4,8 @@ import javax.persistence.*;
 
 import jpa.premium.Parent;
 import jpa.premium.ParentId;
+import jpabook.model.entity.Address;
+import jpabook.model.entity.Member;
 
 /**
  * Created by 1001218 on 15. 4. 5..
@@ -21,7 +23,7 @@ public class Main {
         try {
 
             tx.begin(); //트랜잭션 시작
-            //TODO 비즈니스 로직
+            find(em);
             tx.commit();//트랜잭션 커밋
 
         } catch (Exception e) {
@@ -43,10 +45,20 @@ public class Main {
     	em.persist(parent);
     }
     
-    public void find(EntityManager em) {
-    	ParentId parentId = new ParentId("myId1","myId2");
-    	Parent parent = em.find(Parent.class, parentId);
+    public static void find(EntityManager em) {
+    	Member member = new Member();
     	
+    	member.setHomeAddress(new Address("통영","몽돌해수욕장","660-123"));
+    	member.getFavoriteFoods().add("짬뽕");
+    	member.getFavoriteFoods().add("짜장");
+    	member.getFavoriteFoods().add("탕수육");
+    	
+    	member.getAddressHistory().add(new Address("서울","강남","123-123"));
+    	member.getAddressHistory().add(new Address("서울","강북","000-000"));
+    	
+    	em.persist(member);
     }
-
+    
+    
+    
 }
