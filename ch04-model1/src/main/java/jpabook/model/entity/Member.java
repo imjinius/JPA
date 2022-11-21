@@ -18,6 +18,7 @@ public class Member {
     private Long id;
 
     private String name;
+    private Integer age;
 
     private String city;
     private String street;
@@ -147,5 +148,14 @@ public class Member {
 	public void setAddressHistory(List<Address> addressHistory) {
 		this.addressHistory = addressHistory;
 	}
+
+	public Integer getAge() {
+		return age;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
+	}
+	
     
 }

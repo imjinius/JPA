@@ -59,4 +59,5 @@ public class JpaMain {
         em.remove(member);
 
     }
+    
 }
