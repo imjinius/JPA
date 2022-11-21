@@ -1,5 +1,6 @@
 package jpabook.model.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -20,7 +21,7 @@ public class Team {
 	private String name;
 	
 	@OneToMany(mappedBy = "team")
-	private List<Member> members;
+	private List<Member> members = new ArrayList<Member>();
 	
 	
 	public String getId() {

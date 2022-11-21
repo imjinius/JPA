@@ -3,6 +3,10 @@ package jpabook.model;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import jpa.premium.Parent;
 import jpa.premium.ParentId;
@@ -83,6 +87,50 @@ public class Main {
     	
     	// 3. in
     	TypedQuery<Team> query4 = em.createQuery("select t from Team t where t in (select t2 from Team t2 join t2.members m2 where m2.age >= 20)", Team.class);
+    }
+    
+    // 컬렉션 식
+    public static void collectionGrammar(EntityManager em) {
+    	
+    	// 빈 컬렉션 비교 식
+    	// 주문이 하나라도 있는 회원 조회
+    	TypedQuery<Member> query = em.createQuery("select m from Member m where m.orders is not empty", Member.class);
+    	
+    	// 컬렉션의 멤버 식
+    	// 엔티티나 값이 컬렉션에 포함되어 있으면 참
+    	TypedQuery<Team> query2 = em.createQuery("select t from Team t where :memberParam member of t.members", Team.class);
+    }
+    
+    public static void namedQuery(EntityManager em) {
+    	List<Member> resultList = em.createNamedQuery("Member.findByUsername", Member.class)
+    			.setParameter("username", "회원1")
+    			.getResultList();
+    }
+    
+    public static void criteriaQuery(EntityManager em) {
+    	CriteriaBuilder cb = em.getCriteriaBuilder();
+    	CriteriaQuery<Member> cq = cb.createQuery(Member.class);
+    	Root<Member> m = cq.from(Member.class);
+    	
+    	Predicate usernameEqual = cb.equal(m.get("username"), "회원1");
+    	javax.persistence.criteria.Order ageDesc = cb.desc(m.get("age"));
+    	
+    	cq.select(m).where(usernameEqual).orderBy(ageDesc);
+    	
+    	List<Member> members = em.createQuery(cq).getResultList();
+    }
+    
+    public static void criteriaQueryMemberAge(EntityManager em) {
+    	CriteriaBuilder cb = em.getCriteriaBuilder();
+    	CriteriaQuery<Member> cq = cb.createQuery(Member.class);
+    	Root<Member> m = cq.from(Member.class);
+    	
+    	Predicate age = cb.greaterThan(m.<Integer>get("age"), 10);
+    	
+    	cq.select(m);
+    	cq.where(age);
+    	cq.orderBy(cb.desc(m.get("age")));
+    	
     }
     
 }
