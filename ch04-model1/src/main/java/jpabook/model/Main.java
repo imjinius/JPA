@@ -6,6 +6,7 @@ import jpa.premium.Parent;
 import jpa.premium.ParentId;
 import jpabook.model.entity.Address;
 import jpabook.model.entity.Member;
+import jpabook.model.entity.Order;
 
 /**
  * Created by 1001218 on 15. 4. 5..
@@ -59,6 +60,16 @@ public class Main {
     	em.persist(member);
     }
     
-    
+    public static void subQuery(EntityManager em) {
+    	
+    	// 서브쿼리에 결과가 존재하면 참
+    	TypedQuery<Member> query = em.createQuery("select m from Member m where exists (select t "
+    			+ "from m.team t where t.name='팀A')",Member.class);
+    	
+    	// 서브쿼리에 결과가 존재하면 참
+    	TypedQuery<Order> query2 = em.createQuery("select o from Order o where o.orderAmount > ALL(select p.stockAmount "
+    			+ "from Product p)",Order.class);
+    	
+    }
     
 }
