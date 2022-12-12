@@ -134,21 +134,4 @@ public class Main {
     	
     }
     
-    public static void groupBy(EntityManager em) {
-    	CriteriaBuilder cb = em.getCriteriaBuilder();
-    	CriteriaQuery<Object[]> cq = cb.createQuery(Object[].class);
-    	Root<Member> m = cq.from(Member.class);
-    	
-    	Expression maxAge = cb.max(m.<Integer>get("age"));
-    	Expression minAge = cb.min(m.<Integer>get("age"));
-    	
-    	cq.multiselect(m.get("team").get("name"), maxAge, minAge);
-    	cq.groupBy(m.get("team").get("name")); //GROUP BY
-    	
-    	TypedQuery<Object[]> query = em.createQuery(cq);
-    	List<Object[]> resultList = query.getResultList();
-    	
-    	
-    }
-    
 }
